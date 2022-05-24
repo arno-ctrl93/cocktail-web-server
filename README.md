@@ -1,10 +1,10 @@
 ## Command avalaible to interact with the server
 
-http://localhost:3000/cocktails -> Find all the cocktails inside the API
-http://localhost:3000/cocktails/searchbyid/:id -> Find cocktail by id
-http://localhost:3000/cocktails/searchbyname/:name -> Find cocktail by name
-http://localhost:3000/cocktails/searchbyfirstletter/:letter -> Find cocktail by the first letter
-http://localhost:3000/cocktails/random -> Find a random cocktail
+- http://localhost:3000/cocktails -> Find all the cocktails inside the API 	
+- http://localhost:3000/cocktails/searchbyid/:id -> Find cocktail by id
+- http://localhost:3000/cocktails/searchbyname/:name -> Find cocktail by name
+- http://localhost:3000/cocktails/searchbyfirstletter/:letter -> Find cocktail by the first letter
+- http://localhost:3000/cocktails/random -> Find a random cocktail
 
 
 

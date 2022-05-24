@@ -1,3 +1,13 @@
+## Command avalaible to interact with the server
+
+http://localhost:3000/cocktails -> Find all the cocktails inside the API
+http://localhost:3000/cocktails/searchbyid/:id -> Find cocktail by id
+http://localhost:3000/cocktails/searchbyname/:name -> Find cocktail by name
+http://localhost:3000/cocktails/searchbyfirstletter/:letter -> Find cocktail by the first letter
+http://localhost:3000/cocktails/random -> Find a random cocktail
+
+
+
 <p align="center">
   <a href="http://nestjs.com/" target="blank"><img src="https://nestjs.com/img/logo-small.svg" width="200" alt="Nest Logo" /></a>
 </p>
@@ -71,3 +81,8 @@ Nest is an MIT-licensed open source project. It can grow thanks to the sponsors 
 ## License
 
 Nest is [MIT licensed](LICENSE).
+
+
+
+
+

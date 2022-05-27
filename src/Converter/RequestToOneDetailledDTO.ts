@@ -11,6 +11,7 @@ function IngredientToList(cocktail: any): string[] {
 
 function MeasurementToList(cocktail: any): string[] {
     const measurements: string[] = [];
+    // Comment changed from 'for' to 'forEach'
     for (let i = 1; i < 16 && cocktail['strMeasure' + i] != null; i++) {
         measurements.push(cocktail['strMeasure' + i]);
     }
@@ -18,7 +19,7 @@ function MeasurementToList(cocktail: any): string[] {
 }
 
 
-export function OneToDTO(request: any): DetailledCocktailDTO {
+export function RequestToOneDetailledDTO(request: any): DetailledCocktailDTO {
     const cocktailDTO: DetailledCocktailDTO = request.data.drinks.map(cocktail => ({
         id: cocktail.idDrink,
         name: cocktail.strDrink,

@@ -1,7 +1,7 @@
-import { Controller, Get, Param} from '@nestjs/common';
+import { Controller, Get, HttpException, HttpStatus, Param } from '@nestjs/common';
 import axios from 'axios';
-import { AllToDTO } from 'src/Converter/ToSimpleDTO';
-import { OneToDTO } from 'src/Converter/ToDetailledDTO';
+import { RequestToManySimpleDTO } from 'src/Converter/RequestToManySimpleDTO';
+import { RequestToOneDetailledDTO } from 'src/Converter/RequestToOneDetailledDTO';
 
 
 @Controller('cocktails')
@@ -12,10 +12,10 @@ export class CocktailsController {
 
         const request = await axios.get('https://www.thecocktaildb.com/api/json/v1/1/filter.php?c=Cocktail');
         if (request.data.drinks == null) {
-            return  { id: -404, message : 'Cocktails not found'};
+            return { id: -404, message: 'Cocktails not found' };
         }
         //console.log(response.data.drinks);
-        return AllToDTO(request);
+        return RequestToManySimpleDTO(request);
     }
 
     @Get('/searchbyid/:id')
@@ -24,9 +24,9 @@ export class CocktailsController {
         const request = await axios.get('https://www.thecocktaildb.com/api/json/v1/1/lookup.php?i=' + id);
         console.log(request.data.drinks);
         if (request.data.drinks == null) {
-            return  { id: -404, message : 'Cocktail not found by id '+ id };
+            return { id: -404, message: 'Cocktail not found by id ' + id };
         }
-        return OneToDTO(request);
+        return RequestToOneDetailledDTO(request);
     }
 
     @Get('/searchbyname/:name')
@@ -34,9 +34,9 @@ export class CocktailsController {
         const request = await axios.get('https://www.thecocktaildb.com/api/json/v1/1/search.php?s=' + name);
         console.log(request.data.drinks);
         if (request.data.drinks == null) {
-            return  { id: -404, message : 'Cocktail not found by name '+ name };
+            return { id: -404, message: 'Cocktail not found by name ' + name };
         }
-        return OneToDTO(request);
+        return RequestToOneDetailledDTO(request);
     }
 
     @Get('/searchbyfirstletter/:letter')
@@ -44,9 +44,9 @@ export class CocktailsController {
         const request = await axios.get('https://www.thecocktaildb.com/api/json/v1/1/search.php?f=' + letter);
         console.log(request.data.drinks);
         if (request.data.drinks == null) {
-            return  { id: -404, message : 'Cocktail not found by first letter '+ letter };
+            return { id: -404, message: 'Cocktail not found by first letter ' + letter };
         }
-        return OneToDTO(request);
+        return RequestToOneDetailledDTO(request);
     }
 
     @Get('/random')
@@ -54,11 +54,19 @@ export class CocktailsController {
         const request = await axios.get('https://www.thecocktaildb.com/api/json/v1/1/random.php');
         console.log(request.data.drinks);
         if (request.data.drinks == null) {
-            return  { id: -404, message : 'Cocktail not found by random' };
+            return { id: -404, message: 'Cocktail not found by random' };
         }
-        return OneToDTO(request);
+        return RequestToOneDetailledDTO(request);
     }
 
-
-
+    @Get('/random/:numberRandom')
+    async findManyRandom(@Param('numberRandom') numberRandom: number) {
+        const requests = new Array(numberRandom).fill(undefined).map(() => axios.get('https://www.thecocktaildb.com/api/json/v1/1/random.php'))
+        try {
+            const responses = await Promise.all(requests);
+            console.log(responses);
+        } catch (error) {
+            throw new HttpException("Could not fetch random cocktails", HttpStatus.SERVICE_UNAVAILABLE)
+        }
+    }
 }

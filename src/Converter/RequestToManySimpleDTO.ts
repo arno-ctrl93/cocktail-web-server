@@ -1,7 +1,7 @@
 import { SimpleCocktailDTO } from "src/DTO/SimpleCocktailDTO";
 
 
-export function AllToDTO(request: any): SimpleCocktailDTO[] {
+export function RequestToManySimpleDTO(request: any): SimpleCocktailDTO[] {
     const cocktailsDTO: SimpleCocktailDTO[] = request.data.drinks.map(cocktail => ({
         id: cocktail.idDrink,
         name: cocktail.strDrink,

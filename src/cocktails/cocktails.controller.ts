@@ -20,9 +20,9 @@ export class CocktailsController {
 
     @Get('/searchbyid/:id')
     async findOne(@Param('id') id: string) {
-        console.log(id);
+        //console.log(id);
         const request = await axios.get('https://www.thecocktaildb.com/api/json/v1/1/lookup.php?i=' + id);
-        console.log(request.data.drinks);
+        //console.log(request.data.drinks);
         if (request.data.drinks == null) {
             return { id: -404, message: 'Cocktail not found by id ' + id };
         }
@@ -32,7 +32,7 @@ export class CocktailsController {
     @Get('/searchbyname/:name')
     async findByName(@Param('name') name: string) {
         const request = await axios.get('https://www.thecocktaildb.com/api/json/v1/1/search.php?s=' + name);
-        console.log(request.data.drinks);
+        //console.log(request.data.drinks);
         if (request.data.drinks == null) {
             return { id: -404, message: 'Cocktail not found by name ' + name };
         }
@@ -42,7 +42,7 @@ export class CocktailsController {
     @Get('/searchbyfirstletter/:letter')
     async findByFirstLetter(@Param('letter') letter: string) {
         const request = await axios.get('https://www.thecocktaildb.com/api/json/v1/1/search.php?f=' + letter);
-        console.log(request.data.drinks);
+        //console.log(request.data.drinks);
         if (request.data.drinks == null) {
             return { id: -404, message: 'Cocktail not found by first letter ' + letter };
         }
@@ -52,7 +52,7 @@ export class CocktailsController {
     @Get('/random')
     async findRandom() {
         const request = await axios.get('https://www.thecocktaildb.com/api/json/v1/1/random.php');
-        console.log(request.data.drinks);
+        //console.log(request.data.drinks);
         if (request.data.drinks == null) {
             return { id: -404, message: 'Cocktail not found by random' };
         }
@@ -61,10 +61,11 @@ export class CocktailsController {
 
     @Get('/random/:numberRandom')
     async findManyRandom(@Param('numberRandom') numberRandom: number) {
-        const requests = new Array(numberRandom).fill(undefined).map(() => axios.get('https://www.thecocktaildb.com/api/json/v1/1/random.php'))
+        const requests = new Array(Number(numberRandom)).fill(undefined).map(() => axios.get('https://www.thecocktaildb.com/api/json/v1/1/random.php'))
         try {
             const responses = await Promise.all(requests);
-            console.log(responses);
+
+            return responses.map(RequestToOneDetailledDTO).flat()
         } catch (error) {
             throw new HttpException("Could not fetch random cocktails", HttpStatus.SERVICE_UNAVAILABLE)
         }
